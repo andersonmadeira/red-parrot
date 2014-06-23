@@ -4,6 +4,7 @@
 import sys
 import os
 import array
+import bisect
 import operator
 from collections import Counter
 
@@ -22,13 +23,14 @@ class HuffmanNode:
     def __cmp__(self, other): # create a cmp function so nodes may be compared to each other with > < == 
         if self.freq < other.freq:
             return -1
-        elif self.fre == other.freq:
+        elif self.freq == other.freq:
             return 0
         else:
             return 1
 
     def __str__(self):
         return str(self.symbol) + '->' + str(self.freq)
+        
 
 def get_freq_from(filename, chunk_size=1):
     if chunk_size == 1:
@@ -37,12 +39,18 @@ def get_freq_from(filename, chunk_size=1):
         a.fromstring(f.read()) # feeds array with contents of 'filename'
         c = Counter(a) # counts the occurrences of each byte in the given file
         c_ord = sorted(c.iteritems(), key=operator.itemgetter(1))
-        l = get_list_from_dict(c_ord)
+        L = get_list_from_dict(c_ord)
             
         print 'Counted dict:',c
         print 'Sorted dict:', c_ord
         print 'List:'
-        for e in l:
+        for e in L:
+            print str(e),
+        print '==='
+        bisect.insort_left(L, HuffmanNode('A', 7))
+        print 'After insertion:'
+        print 'List:'
+        for e in L:
             print str(e),
         print
         print 'Most freq.:', c_ord[len(c_ord)-1] # shows the most frequent byte
