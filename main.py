@@ -32,34 +32,31 @@ class HuffmanNode:
         return str(self.symbol) + '->' + str(self.freq)
         
 
-def get_freq_from(filename, chunk_size=1):
+def get_tree_freq_from(filename, chunk_size=1):
     if chunk_size == 1:
         f = open(filename, 'rb') # input file
         a = array.array('B') # creates an array of bytes
         a.fromstring(f.read()) # feeds array with contents of 'filename'
         c = Counter(a) # counts the occurrences of each byte in the given file
         c_ord = sorted(c.iteritems(), key=operator.itemgetter(1))
-        L = get_list_from_dict(c_ord)
-            
-        print 'Counted dict:',c
-        print 'Sorted dict:', c_ord
-        print 'List:'
-        for e in L:
-            print str(e),
-        print '==='
-        bisect.insort_left(L, HuffmanNode('A', 7))
-        print 'After insertion:'
-        print 'List:'
-        for e in L:
-            print str(e),
-        print
-        print 'Most freq.:', c_ord[len(c_ord)-1] # shows the most frequent byte
-        print 'Least freq.:', c_ord[0] # shows the least frequent byte
+        L = get_list_from_dict(c_ord) # list of node objects that will remain sorted during the algorithm
+
+        n = len(L)
+        for i in xrange(n-1):
+            new_node = HuffmanNode('*') # non-terminal node.
+            new_node.left = L.pop(0) # take the the two with the lowest frequency
+            new_node.right = L.pop(0)
+            new_node.freq = new_node.left.freq + new_node.right.freq
+            bisect.insort_left(L, new_node) # append the new node in the right place so the list will remain sorted.
+        return L.pop(0) # returns the root of the huffman tree
+        
+        #print 'Most freq.:', c_ord[len(c_ord)-1] # shows the most frequent byte
+        #print 'Least freq.:', c_ord[0] # shows the least frequent byte
     else: # @TODO: compression using blocks of bytes as words for higer compression ratio com bigger files.
         pass
 
 def main(filename):
-    get_freq_from(filename)
+    print get_tree_freq_from(filename)
     pass
 
 def show_usage():
