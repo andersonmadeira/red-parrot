@@ -8,6 +8,20 @@ import bisect
 import operator
 from collections import Counter
 
+def print_tree(root):
+    # draw a tree like this
+##    root
+##      +--sub1
+##      +--sub2
+##      |  +--sub2sub1
+##      +--sub3
+##         +--sub3sub1
+##         |  +--sub3sub1sub1
+##         +--sub3sub2
+    pass
+        
+    
+
 def get_list_from_dict(sorted_dict):
     """Translates the sorted dict into a sorted list of nodes"""
     # map 
@@ -41,6 +55,10 @@ def get_tree_freq_from(filename, chunk_size=1):
         c_ord = sorted(c.iteritems(), key=operator.itemgetter(1))
         L = get_list_from_dict(c_ord) # list of node objects that will remain sorted during the algorithm
 
+        for e in L:
+            print e,
+        print
+
         n = len(L)
         for i in xrange(n-1):
             new_node = HuffmanNode('*') # non-terminal node.
@@ -56,7 +74,7 @@ def get_tree_freq_from(filename, chunk_size=1):
         pass
 
 def main(filename):
-    print get_tree_freq_from(filename)
+    print_tree(get_tree_freq_from(filename))
     pass
 
 def show_usage():
