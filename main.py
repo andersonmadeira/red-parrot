@@ -19,7 +19,6 @@ def print_tree(root):
 ##         |  +--sub3sub1sub1
 ##         +--sub3sub2
     pass
-        
     
 
 def get_list_from_dict(sorted_dict):
@@ -49,8 +48,7 @@ class HuffmanNode:
 def get_tree_freq_from(filename, chunk_size=1):
     if chunk_size == 1:
         f = open(filename, 'rb') # input file
-        a = array.array('B') # creates an array of bytes
-        a.fromstring(f.read()) # feeds array with contents of 'filename'
+        a = bytearray(f.read()) # creates an array of bytes with contents of 'filename'
         c = Counter(a) # counts the occurrences of each byte in the given file
         c_ord = sorted(c.iteritems(), key=operator.itemgetter(1))
         L = get_list_from_dict(c_ord) # list of node objects that will remain sorted during the algorithm
