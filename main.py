@@ -61,9 +61,16 @@ def get_tree_freq_from(filename, chunk_size=1):
         for i in xrange(n-1):
             new_node = HuffmanNode('*') # non-terminal node.
             new_node.left = L.pop(0) # take the the two with the lowest frequency
+            print 'poping(L):', new_node.left
             new_node.right = L.pop(0)
+            print 'poping(R):', new_node.right
             new_node.freq = new_node.left.freq + new_node.right.freq
             bisect.insort_left(L, new_node) # append the new node in the right place so the list will remain sorted.
+            print '->Insering:', new_node
+            print 'New list:'
+            for e in L:
+                print e,
+            print
         return L.pop(0) # returns the root of the huffman tree
         
         #print 'Most freq.:', c_ord[len(c_ord)-1] # shows the most frequent byte
